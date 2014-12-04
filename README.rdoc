@@ -1,0 +1,37 @@
+RecordEncoder
+============
+
+RecordEncoder can be chained to an activerecord relation or a class and will yield encoded representation
+
+
+Installation
+-----------
+
+    gem install record_encoder
+
+or by including this line in your Gemfile
+
+    gem "record_encoder", :git => "git://github.com/tskorupa/record_encoder.git"
+
+Usage
+-----
+
+    require 'record_encoder'
+
+    Class Foo < ActiveRecord::Base
+      acts_as_record_encoder
+    end
+
+    irb(main):004:0> Foo.to_bert {|r| puts r.inspect }
+    "\x83l\x00\x00\x00\x01h\x02d\x00\tfoos"
+       (0.7ms)  SELECT COUNT(*) FROM "foos"
+    "l\u0000\u0000\u0000\u0000"
+      Foo Load (0.5ms)  SELECT  "foos".* FROM "foos"   ORDER BY "foos"."id" ASC LIMIT 1000
+    "j"
+    "j"
+    => nil
+    irb(main):005:0>
+
+TODO
+================
+
