@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/ratelle/bert.git
+  revision: a9a0d38756f9b143aebf07efad4e1ebd901a5993
+  specs:
+    bert (1.1.6)
+
 PATH
   remote: .
   specs:
@@ -35,7 +41,6 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
-    bert (1.1.6)
     builder (3.2.2)
     erubis (2.7.0)
     hike (1.2.3)
@@ -88,6 +93,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bert!
   mocha
   rails (~> 4.1.8)
   record_encoder!

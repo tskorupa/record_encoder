@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+gem 'bert', platforms: :ruby, github: 'ratelle/bert'
+
 # Declare your gem's dependencies in record_encoder.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
