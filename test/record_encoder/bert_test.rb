@@ -26,25 +26,15 @@ class RecordEncoderBertTest < ActiveSupport::TestCase
 
   test "requires a block" do
     error = assert_raise(LocalJumpError) do
-      RecordEncoder::Bert.new(dummy_class).to_bert
+      RecordEncoder::Bert.new( Class ).to_bert
     end
     assert_equal "no block given (yield)", error.message
   end
 
   test "takes a block" do
-    encoder = RecordEncoder::Bert.new(dummy_class)
+    encoder = RecordEncoder::Bert.new( Class )
     encoder.expects(:to_bert_internal).once.yields('result')
     assert_nil encoder.to_bert {}
-  end
-
-  private
-
-  def dummy_class
-    Class.new do
-      def self.name
-        "Dummy"
-      end
-    end
   end
 
 end
