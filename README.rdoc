@@ -35,3 +35,6 @@ Usage
 TODO
 ================
 
+FIXME
+================
+- RuntimeError: Cannot encode to erlang external format: #<BigDecimal:7fa7959aa760,'0.1E3',9(27)>
