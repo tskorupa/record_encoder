@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gem 'bert', platforms: :ruby, github: 'ratelle/bert'
 

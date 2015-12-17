@@ -6,13 +6,12 @@ require 'bert'
 
 module RecordEncoder
   class Bert
-
     SUPPORTED_OPTIONS = %i( primary_key delete_primary_key )
 
     def initialize klass, *attributes
       @klass = klass
-      raise "klass can't be blank!" if @klass.blank?
-      raise "klass must be a Class!" unless @klass.is_a? Class
+      fail "klass can't be blank!" if @klass.blank?
+      fail 'klass must be a Class!' unless @klass.is_a?(Class)
 
       options = attributes.extract_options!.slice!(SUPPORTED_OPTIONS)
       @primary_key = options[:primary_key] || :id
@@ -22,7 +21,7 @@ module RecordEncoder
     end
 
     def to_bert
-      to_bert_internal {|r| yield r }
+      to_bert_internal { |r| yield r }
       nil
     end
 
@@ -32,7 +31,7 @@ module RecordEncoder
       yield @bert_prefix
       yield records_list_prefix
       @klass.find_each do |record|
-        yield record_bert( record )
+        yield record_bert(record)
       end
       yield records_list_suffix
       yield @bert_suffix
@@ -40,11 +39,11 @@ module RecordEncoder
 
     # NOTE: records_list_prefix needs to be computed dynamically. no caching
     def records_list_prefix
-      "l" + [records_count].pack("N").bytes.pack('c*')
+      'l' + [records_count].pack('N').bytes.pack('c*')
     end
 
     def records_list_suffix
-      "j"
+      'j'
     end
 
     # NOTE: records_count needs to be computed dynamically. no caching
@@ -52,8 +51,8 @@ module RecordEncoder
       @klass.all.size
     end
 
-    def encode datum, opts={}
-      bert = BERT.encode( datum )
+    def encode datum, opts = {}
+      bert = BERT.encode(datum)
       bert = bert[1..-1] if opts.present? && opts[:offset].present?
       bert
     end
@@ -69,7 +68,7 @@ module RecordEncoder
     end
 
     def record_attributes_tuple_collection record
-      record_hash(record).collect {|k,v| tuple(k,v) }
+      record_hash(record).collect { |key, value| tuple(key, value) }
     end
 
     def record_hash record
@@ -84,14 +83,14 @@ module RecordEncoder
 
     def bert_prefix_and_suffix
       placeholder = [:placeholder]
-      bert = encode( [ tuple(bert_name, placeholder) ] )
+      arr_list = [tuple(bert_name, placeholder)]
+      bert = encode(arr_list)
       placeholder_list = encode(placeholder, offset: true)
-      @bert_prefix, @bert_suffix = bert.split( placeholder_list )
+      @bert_prefix, @bert_suffix = bert.split(placeholder_list)
     end
 
     def bert_name
       @bert_name ||= @klass.to_s.underscore.pluralize.to_sym
     end
-
   end
 end
